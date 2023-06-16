@@ -15,9 +15,7 @@ const port = process.env.PORT || 3000;
 io.on('connection', (socket) => {
     console.log('New WebSocket Connection');
 
-    socket.on('join', () => {
-        console.log('Welcome');
-    });
+    socket.emit('welcome');
 });
 
 server.listen(port, () => {
