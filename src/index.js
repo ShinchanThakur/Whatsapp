@@ -24,6 +24,11 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('message', message);
         callback();
     });
+
+    socket.on('sendLocation', (coords, callback) => {
+        console.log(coords);
+        callback();
+    });
 });
 
 server.listen(port, () => {
