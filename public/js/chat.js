@@ -10,6 +10,10 @@ socket.on('message', (message) => {
     console.log(message);
 });
 
+socket.on('locationMessage', (googleMapsLink) => {
+    console.log(googleMapsLink);
+})
+
 $messageForm.addEventListener('submit', (e) => {
     e.preventDefault();
     $messageFormButton.setAttribute('disabled', 'disabled');
