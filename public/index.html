@@ -9,12 +9,21 @@
 
 <body>
 
+    <div id="messages"></div>
+
     <form id="message-form">
         <input name="message" placeholder="Message" type="text">
         <button>Send</button>
     </form>
+
     <button id="send-location">Send location</button>
+
+    <script id="message-template" type="text/html">
+        <p>{{message}}</p>
+    </script>
+
     <script src="/socket.io/socket.io.js"></script>
+    <script src="https://unpkg.com/mustache@latest"></script>
     <script src="/js/chat.js"></script>
 </body>
 
