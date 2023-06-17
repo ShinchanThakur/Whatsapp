@@ -33,7 +33,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', () => {
-        io.emit('message', 'A user has left');
+        io.emit('message', generateMessage('A user has left'));
     });
 });
 

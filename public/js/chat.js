@@ -11,16 +11,18 @@ const $messages = document.querySelector('#messages');
 const messageTemplate = document.querySelector('#message-template').innerHTML;
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML;
 
-socket.on('message', (message) => {
+socket.on('message', ({ text, createdAt }) => {
     const messageHtml = Mustache.render(messageTemplate, {
-        message: message.text
+        message: text,
+        createdAt: moment(createdAt).format('h:mm a')
     });
     $messages.insertAdjacentHTML('beforeend', messageHtml);
 });
 
-socket.on('locationMessage', (locationMessage) => {
+socket.on('locationMessage', ({ googleMapsLink, createdAt }) => {
     const locationMessageHtml = Mustache.render(locationMessageTemplate, {
-        googleMapsLink: locationMessage.googleMapsLink
+        googleMapsLink,
+        createdAt: moment(createdAt).format('h:mm a')
     });
     $messages.insertAdjacentHTML('beforeend', locationMessageHtml);
 });

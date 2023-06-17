@@ -19,10 +19,18 @@
     <button id="send-location">Send location</button>
 
     <script id="message-template" type="text/html">
+        <p>
+            <span>Username</span>
+            <span>{{createdAt}}</span>
+        </p>
         <p>{{message}}</p>
     </script>
 
     <script id="location-message-template" type="text/html">
+        <p>
+            <span>Username</span>
+            <span>{{createdAt}}</span>
+        </p>
         <p><a href="{{googleMapsLink}}" target="_blank">My current location</a></p>
     </script>
 
