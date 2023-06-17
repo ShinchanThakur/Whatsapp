@@ -3,6 +3,7 @@ const http = require('http');
 const socketio = require('socket.io');
 const path = require('path');
 const Filter = require('bad-words');
+const { generateMessage, generateLocationMessage } = require('./utils/messages');
 
 const app = express();
 const publicDirectoryPath = path.join(__dirname, '../public');
@@ -21,17 +22,18 @@ io.on('connection', (socket) => {
         if (filter.isProfane(message)) {
             return callback('Profanity is not allowed in messages!');
         }
-        socket.broadcast.emit('message', message);
+        socket.broadcast.emit('message', generateMessage(message));
         callback();
     });
 
     socket.on('sendLocation', (coords, callback) => {
-        socket.broadcast.emit('locationMessage', `https://google.com/maps?q=${coords.latitude},${coords.longitude}`)
+        const googleMapsLink = `https://google.com/maps?q=${coords.latitude},${coords.longitude}`;
+        socket.broadcast.emit('locationMessage', generateLocationMessage(googleMapsLink));
         callback();
     });
 
     socket.on('disconnect', () => {
-        io.emit('message', 'A user has left');
+        io.emit('message', generateMessage('A user has left'));
     });
 });
 
