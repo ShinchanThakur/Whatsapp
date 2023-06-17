@@ -13,14 +13,14 @@ const locationMessageTemplate = document.querySelector('#location-message-templa
 
 socket.on('message', (message) => {
     const messageHtml = Mustache.render(messageTemplate, {
-        message
+        message: message.text
     });
     $messages.insertAdjacentHTML('beforeend', messageHtml);
 });
 
-socket.on('locationMessage', (googleMapsLink) => {
+socket.on('locationMessage', (locationMessage) => {
     const locationMessageHtml = Mustache.render(locationMessageTemplate, {
-        googleMapsLink
+        googleMapsLink: locationMessage.googleMapsLink
     });
     $messages.insertAdjacentHTML('beforeend', locationMessageHtml);
 });
