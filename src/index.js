@@ -17,6 +17,12 @@ const port = process.env.PORT || 3000;
 io.on('connection', (socket) => {
     console.log('New WebSocket Connection');
 
+    socket.on('join', ({ username, room }) => {
+        socket.join(room);
+        socket.emit('message', generateMessage('Welcome!'));
+        socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined!`));
+    });
+
     socket.on('sendMessage', (message, callback) => {
         const filter = new Filter();
         if (filter.isProfane(message)) {
