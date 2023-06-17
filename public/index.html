@@ -38,11 +38,13 @@
     </script>
 
     <script id="location-message-template" type="text/html">
-        <p>
-            <span>Username</span>
-            <span>{{createdAt}}</span>
-        </p>
-        <p><a href="{{googleMapsLink}}" target="_blank">My current location</a></p>
+        <div class="message">
+            <p>
+                <span class="message__name">Username</span>
+                <span class="message__meta">{{createdAt}}</span>
+            </p>
+            <p><a href="{{googleMapsLink}}" target="_blank">My current location</a></p>
+        </div>
     </script>
 
     <script src="/socket.io/socket.io.js"></script>
