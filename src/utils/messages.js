@@ -1,12 +1,14 @@
-const generateMessage = (text) => {
+const generateMessage = (username, text) => {
     return {
+        username,
         text,
         createdAt: new Date().getTime()
     };
 };
 
-const generateLocationMessage = (googleMapsLink) => {
+const generateLocationMessage = (username, googleMapsLink) => {
     return {
+        username,
         googleMapsLink,
         createdAt: new Date().getTime()
     };
