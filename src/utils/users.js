@@ -36,9 +36,19 @@ const removeUser = (id) => {
         const deletedItem = users.splice(index, 1)[0];
         return deletedItem;
     }
+    //ALTERNATIVE
+    //The alternative here could be using filter method
+    //pro - It is simple to write (only 1 line of code)
+    //con - It is less efficient (findIndex will stop looking after finding the first index, but filter will keep filtering till end of array)
 };
+
+const getUser = (id) => {
+    const user = users.find((user) => user.id === id)
+    return user;
+}
 
 module.exports = {
     addUser,
-    removeUser
+    removeUser,
+    getUser
 }
