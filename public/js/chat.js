@@ -6,10 +6,12 @@ const $messageFormInput = $messageForm.querySelector('input');
 const $messageFormButton = $messageForm.querySelector('button');
 const $sendLocationButton = document.querySelector('#send-location');
 const $messages = document.querySelector('#messages');
+const $sidebar = document.querySelector('#sidebar');
 
 //Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML;
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML;
+const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML;
 
 //Options
 const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
@@ -37,6 +39,14 @@ socket.on('locationMessage', ({ username, googleMapsLink, createdAt }) => {
         createdAt: moment(createdAt).format('h:mm a')
     });
     $messages.insertAdjacentHTML('beforeend', locationMessageHtml);
+});
+
+socket.on('roomData', ({ room, users }) => {
+    const roomDataHtml = Mustache.render(sidebarTemplate, {
+        room,
+        users
+    });
+    $sidebar.innerHTML = roomDataHtml;
 });
 
 $messageForm.addEventListener('submit', (e) => {
