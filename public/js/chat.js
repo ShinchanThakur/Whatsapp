@@ -11,6 +11,16 @@ const $messages = document.querySelector('#messages');
 const messageTemplate = document.querySelector('#message-template').innerHTML;
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML;
 
+//Options
+const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
+
+socket.emit('join', { username, room }, (error) => {
+    if (error) {
+        alert(error);
+        location.href = '/';
+    }
+});
+
 socket.on('message', ({ text, createdAt }) => {
     const messageHtml = Mustache.render(messageTemplate, {
         message: text,

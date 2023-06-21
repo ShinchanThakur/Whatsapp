@@ -4,6 +4,7 @@ const socketio = require('socket.io');
 const path = require('path');
 const Filter = require('bad-words');
 const { generateMessage, generateLocationMessage } = require('./utils/messages');
+const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users');
 
 const app = express();
 const publicDirectoryPath = path.join(__dirname, '../public');
@@ -16,6 +17,18 @@ const port = process.env.PORT || 3000;
 
 io.on('connection', (socket) => {
     console.log('New WebSocket Connection');
+
+    socket.on('join', ({ username, room }, callback) => {
+        const { error, user } = addUser({ id: socket.id, username, room });
+        if (error) {
+            return callback(error);
+        }
+        socket.join(user.room);
+        //Instead of using room, we use user.room, because it has been cleaned
+        socket.emit('message', generateMessage('Welcome!'));
+        socket.broadcast.to(room).emit('message', generateMessage(`${user.username} has joined!`));
+        callback();
+    });
 
     socket.on('sendMessage', (message, callback) => {
         const filter = new Filter();
@@ -33,7 +46,10 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', () => {
-        io.emit('message', generateMessage('A user has left'));
+        const user = removeUser(socket.id);
+        if (user) {
+            io.emit('message', generateMessage(`${user.username} has left`));
+        }
     });
 });
 
