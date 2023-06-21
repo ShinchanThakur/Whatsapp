@@ -30,6 +30,15 @@ const addUser = ({ id, username, room }) => {
     return { user };
 };
 
+const removeUser = (id) => {
+    const index = users.findIndex((user) => user.id === id);
+    if (index !== -1) {
+        const deletedItem = users.splice(index, 1)[0];
+        return deletedItem;
+    }
+};
+
 module.exports = {
-    addUser
+    addUser,
+    removeUser
 }
