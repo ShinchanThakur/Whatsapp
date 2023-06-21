@@ -21,16 +21,18 @@ socket.emit('join', { username, room }, (error) => {
     }
 });
 
-socket.on('message', ({ text, createdAt }) => {
+socket.on('message', ({ username, text, createdAt }) => {
     const messageHtml = Mustache.render(messageTemplate, {
+        username,
         message: text,
         createdAt: moment(createdAt).format('h:mm a')
     });
     $messages.insertAdjacentHTML('beforeend', messageHtml);
 });
 
-socket.on('locationMessage', ({ googleMapsLink, createdAt }) => {
+socket.on('locationMessage', ({ username, googleMapsLink, createdAt }) => {
     const locationMessageHtml = Mustache.render(locationMessageTemplate, {
+        username,
         googleMapsLink,
         createdAt: moment(createdAt).format('h:mm a')
     });
