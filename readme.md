@@ -24,3 +24,8 @@ Following Node/JS topics are covered in this node app -
 
 ## Features
 Following features are available in this node app - 
+
+## Todo
+
+- Update readme
+- Deploy code to cloud
