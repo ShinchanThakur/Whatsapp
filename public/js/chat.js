@@ -23,6 +23,10 @@ socket.emit('join', { username, room }, (error) => {
     }
 });
 
+const autoScroll = () => {
+    $messages.scrollTop = $messages.scrollHeight;
+};
+
 socket.on('message', ({ username, text, createdAt }) => {
     const messageHtml = Mustache.render(messageTemplate, {
         username,
@@ -30,6 +34,7 @@ socket.on('message', ({ username, text, createdAt }) => {
         createdAt: moment(createdAt).format('h:mm a')
     });
     $messages.insertAdjacentHTML('beforeend', messageHtml);
+    autoScroll();
 });
 
 socket.on('locationMessage', ({ username, googleMapsLink, createdAt }) => {
@@ -39,6 +44,7 @@ socket.on('locationMessage', ({ username, googleMapsLink, createdAt }) => {
         createdAt: moment(createdAt).format('h:mm a')
     });
     $messages.insertAdjacentHTML('beforeend', locationMessageHtml);
+    autoScroll();
 });
 
 socket.on('roomData', ({ room, users }) => {
