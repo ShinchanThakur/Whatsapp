@@ -23,6 +23,28 @@ socket.emit('join', { username, room }, (error) => {
     }
 });
 
+const autoScroll = () => {
+    const $newMessage = $messages.lastElementChild;
+
+    const newMessageStyles = getComputedStyle($newMessage);
+    const newMessageMargin = parseInt(newMessageStyles.marginBottom);
+    const newMessageVisibleHeight = $newMessage.offsetHeight;
+    const newMessageHeight = newMessageMargin + newMessageVisibleHeight;
+
+    const messagesVisibleHeight = $messages.offsetHeight;
+    const messagesContainerHeight = $messages.scrollHeight;
+
+    //how far I have scrolled
+    const scrollOffset = messagesVisibleHeight + $messages.scrollTop;
+
+    //if I'm at last message
+    //if I have scrolled to the bottom (before this last message)
+    if (messagesContainerHeight - newMessageHeight <= scrollOffset) {
+        $messages.scrollTop = $messages.scrollHeight;
+        //scroll to the bottom
+    }
+};
+
 socket.on('message', ({ username, text, createdAt }) => {
     const messageHtml = Mustache.render(messageTemplate, {
         username,
@@ -30,6 +52,7 @@ socket.on('message', ({ username, text, createdAt }) => {
         createdAt: moment(createdAt).format('h:mm a')
     });
     $messages.insertAdjacentHTML('beforeend', messageHtml);
+    autoScroll();
 });
 
 socket.on('locationMessage', ({ username, googleMapsLink, createdAt }) => {
@@ -39,6 +62,7 @@ socket.on('locationMessage', ({ username, googleMapsLink, createdAt }) => {
         createdAt: moment(createdAt).format('h:mm a')
     });
     $messages.insertAdjacentHTML('beforeend', locationMessageHtml);
+    autoScroll();
 });
 
 socket.on('roomData', ({ room, users }) => {
